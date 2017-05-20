@@ -48,7 +48,7 @@ public class One2OneCallApp implements WebSocketConfigurer {
 
   @Bean
   public KurentoClient kurentoClient() {
-    return KurentoClient.create();
+    return KurentoClient.create("ws://kms.inq.com:8888/kurento");
   }
 
   @Override
