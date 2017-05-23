@@ -19,6 +19,7 @@ package org.kurento.tutorial.helloworld;
 
 import org.kurento.client.IceCandidate;
 import org.kurento.client.MediaPipeline;
+import org.kurento.client.RtpEndpoint;
 import org.kurento.client.WebRtcEndpoint;
 
 /**
@@ -29,6 +30,7 @@ import org.kurento.client.WebRtcEndpoint;
  */
 public class UserSession {
   private WebRtcEndpoint webRtcEndpoint;
+  private RtpEndpoint rtpEndpoint;
   private MediaPipeline mediaPipeline;
 
   public UserSession() {
@@ -40,6 +42,14 @@ public class UserSession {
 
   public void setWebRtcEndpoint(WebRtcEndpoint webRtcEndpoint) {
     this.webRtcEndpoint = webRtcEndpoint;
+  }
+
+  public RtpEndpoint getRtpEndpoint() {
+    return rtpEndpoint;
+  }
+
+  public void setRtpEndpoint(RtpEndpoint rtpEndpoint) {
+    this.rtpEndpoint = rtpEndpoint;
   }
 
   public MediaPipeline getMediaPipeline() {

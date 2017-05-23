@@ -20,12 +20,8 @@ package org.kurento.tutorial.helloworld;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.kurento.client.EventListener;
-import org.kurento.client.IceCandidate;
-import org.kurento.client.IceCandidateFoundEvent;
-import org.kurento.client.KurentoClient;
-import org.kurento.client.MediaPipeline;
-import org.kurento.client.WebRtcEndpoint;
+import com.google.gson.*;
+import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
 /**
  * Hello World handler (application and media logic).
@@ -61,7 +53,9 @@ public class HelloWorldHandler extends TextWebSocketHandler {
 
     log.debug("Incoming message: {}", jsonMessage);
 
-    switch (jsonMessage.get("id").getAsString()) {
+    switch (jsonMessage.get("method").getAsString()) {
+      case "connect":
+        break;
       case "start":
         start(session, jsonMessage);
         break;
@@ -91,6 +85,46 @@ public class HelloWorldHandler extends TextWebSocketHandler {
   }
 
   private void start(final WebSocketSession session, JsonObject jsonMessage) {
+    try {
+      // 1. Media logic (webRtcEndpoint in loopback)
+      MediaPipeline pipeline = kurento.createMediaPipeline();
+      RtpEndpoint rtpEndpoint = new RtpEndpoint.Builder(pipeline).build();
+      rtpEndpoint.connect(rtpEndpoint);
+
+      // 2. Store user session
+      UserSession user = new UserSession();
+      user.setMediaPipeline(pipeline);
+      user.setRtpEndpoint(rtpEndpoint);
+      users.put(session.getId(), user);
+
+      // 3. SDP negotiation
+      JsonObject inparams = jsonMessage.get("params").getAsJsonObject();
+      String id = jsonMessage.get("id").getAsString();
+      String sdpOffer = inparams.get("sdpOffer").getAsString();
+      String sdpAnswer = rtpEndpoint.processOffer(sdpOffer);
+
+      JsonObject params = new JsonObject();
+      params.addProperty("id", "start");
+      params.addProperty("sdpAnswer", sdpAnswer);
+      params.addProperty("method", "startResponse");
+
+      JsonObject response = new JsonObject();
+      response.addProperty("id", id);
+      response.addProperty("method", "startResponse");
+      response.add("params", params);
+      response.addProperty("test", "test");
+      response.addProperty("jsonrpc", "2.0");
+      log.info("*** startRequest reply:" + response.toString());
+      synchronized (session) {
+        session.sendMessage(new TextMessage(response.toString()));
+      }
+    } catch (Throwable t) {
+      sendError(session, t.getMessage());
+    }
+  }
+
+
+  private void startWeb(final WebSocketSession session, JsonObject jsonMessage) {
     try {
       // 1. Media logic (webRtcEndpoint in loopback)
       MediaPipeline pipeline = kurento.createMediaPipeline();
