@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kurento.client.IceCandidate;
+import org.kurento.client.RtpEndpoint;
 import org.kurento.client.WebRtcEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +49,26 @@ public class UserSession {
   private String callingTo;
   private String callingFrom;
   private WebRtcEndpoint webRtcEndpoint;
+  private RtpEndpoint RtpEndpoint;
   private final List<IceCandidate> candidateList = new ArrayList<IceCandidate>();
+
+  public enum UserType { WEBRTC, RTP };
+  private UserType userType;
 
   public UserSession(WebSocketSession session, String name) {
     this.session = session;
     this.name = name;
+    this.userType = UserType.WEBRTC;
+  }
+
+  public UserSession(WebSocketSession session, String name, UserType userType) {
+    this.session = session;
+    this.name = name;
+    this.userType = userType;
+  }
+
+  public UserType getUserType() {
+    return userType;
   }
 
   public WebSocketSession getSession() {
@@ -105,6 +121,10 @@ public class UserSession {
     this.candidateList.clear();
   }
 
+  public void setRtpEndpoint(RtpEndpoint RtpEndpoint) {
+    this.RtpEndpoint = RtpEndpoint;
+  }
+
   public void addCandidate(IceCandidate candidate) {
     if (this.webRtcEndpoint != null) {
       this.webRtcEndpoint.addIceCandidate(candidate);
@@ -115,6 +135,7 @@ public class UserSession {
 
   public void clear() {
     this.webRtcEndpoint = null;
+    this.RtpEndpoint = null;
     this.candidateList.clear();
   }
 }

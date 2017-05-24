@@ -19,6 +19,7 @@ package org.kurento.tutorial.one2onecall;
 
 import org.kurento.client.KurentoClient;
 import org.kurento.client.MediaPipeline;
+import org.kurento.client.RtpEndpoint;
 import org.kurento.client.WebRtcEndpoint;
 
 /**
@@ -34,15 +35,16 @@ public class CallMediaPipeline {
   private MediaPipeline pipeline;
   private WebRtcEndpoint callerWebRtcEp;
   private WebRtcEndpoint calleeWebRtcEp;
+  private RtpEndpoint calleeRtpEp;
 
   public CallMediaPipeline(KurentoClient kurento) {
     try {
       this.pipeline = kurento.createMediaPipeline();
       this.callerWebRtcEp = new WebRtcEndpoint.Builder(pipeline).build();
-      this.calleeWebRtcEp = new WebRtcEndpoint.Builder(pipeline).build();
+      this.calleeRtpEp = new RtpEndpoint.Builder(pipeline).build();
 
-      this.callerWebRtcEp.connect(this.calleeWebRtcEp);
-      this.calleeWebRtcEp.connect(this.callerWebRtcEp);
+      this.callerWebRtcEp.connect(this.calleeRtpEp);
+      this.calleeRtpEp.connect(this.callerWebRtcEp);
     } catch (Throwable t) {
       if (this.pipeline != null) {
         pipeline.release();
@@ -70,6 +72,10 @@ public class CallMediaPipeline {
 
   public WebRtcEndpoint getCalleeWebRtcEp() {
     return calleeWebRtcEp;
+  }
+
+  public RtpEndpoint getCalleeRtpEp() {
+    return calleeRtpEp;
   }
 
 }
