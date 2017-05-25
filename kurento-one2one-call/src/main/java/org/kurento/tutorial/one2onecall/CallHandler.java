@@ -21,10 +21,7 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.gson.JsonElement;
-import org.kurento.client.EventListener;
-import org.kurento.client.IceCandidate;
-import org.kurento.client.IceCandidateFoundEvent;
-import org.kurento.client.KurentoClient;
+import org.kurento.client.*;
 import org.kurento.jsonrpc.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -230,16 +227,15 @@ public class CallHandler extends TextWebSocketHandler {
 
                 final UserSession calleer = registry.getByName(from);
                 CallMediaPipeline pipeline = null;
+                String calleeSdpOffer="";
                 try {
                     pipeline = new CallMediaPipeline(kurento);
                     pipelines.put(calleer.getSessionId(), pipeline);
                     pipelines.put(callee.getSessionId(), pipeline);
 
                     callee.setRtpEndpoint(pipeline.getCalleeRtpEp());
-                    String calleeSdpOffer = pipeline.getCalleeRtpEp().generateOffer();
+                    calleeSdpOffer = pipeline.getCalleeRtpEp().generateOffer();
                     callee.setSdpOffer(calleeSdpOffer);
-
-                    JsonObject startCommunication = new JsonObject();
 
                     String callerSdpOffer = registry.getByName(from).getSdpOffer();
 
@@ -259,12 +255,17 @@ public class CallHandler extends TextWebSocketHandler {
                     pipelines.remove(calleer.getSessionId());
                     pipelines.remove(callee.getSessionId());
 
-                    response.addProperty("id", "callResponse");
+                    /*response.addProperty("id", "callResponse");
                     response.addProperty("response", "rejected");
                     calleer.sendMessage(response);
 
                     response = new JsonObject();
-                    response.addProperty("id", "stopCommunication");
+                    response.addProperty("id", "stopCommunication");*/
+                    JsonObject params = new JsonObject();
+                    params.addProperty("sdpOffer", calleeSdpOffer);
+                    params.addProperty("callFrom", caller.getName());
+                    params.addProperty("callTo", callee.getName());
+                    response.add("params", params);
                 }
 
             } else {
@@ -283,8 +284,22 @@ public class CallHandler extends TextWebSocketHandler {
 
     private void incomingCallResponse(final UserSession callee, JsonObject jsonMessage)
             throws IOException {
-        String callResponse = jsonMessage.get("callResponse").getAsString();
-        String from = jsonMessage.get("from").getAsString();
+        JsonObject jsonParams = null;
+
+        String callResponse = null;
+        String from = null;
+        String sdpAnswer = null;
+
+        if (jsonMessage.get("params") != null) {
+            jsonParams = jsonMessage.get("params").getAsJsonObject();
+            callResponse = jsonParams.get("callResponse").getAsString();
+            sdpAnswer = jsonParams.get("sdpAnswer").getAsString();
+            from = jsonParams.get("from").getAsString();
+        }
+        else {
+            callResponse = jsonMessage.get("callResponse").getAsString();
+            from = jsonMessage.get("from").getAsString();
+        }
         final UserSession calleer = registry.getByName(from);
         String to = calleer.getCallingTo();
 
@@ -294,6 +309,9 @@ public class CallHandler extends TextWebSocketHandler {
             CallMediaPipeline pipeline = null;
             try {
                 pipeline = pipelines.get(calleer.getSessionId());
+
+                RtpEndpoint c = pipeline.getCalleeRtpEp();
+                c.processAnswer(sdpAnswer);
 
                 calleer.setWebRtcEndpoint(pipeline.getCallerWebRtcEp());
                 pipeline.getCallerWebRtcEp().addIceCandidateFoundListener(
