@@ -8,7 +8,7 @@
 		<version>6.6.0</version>
 	</parent>
 
-	<artifactId>kurento-one2one-call</artifactId>
+	<artifactId>kurento-one2one-newwindow</artifactId>
 	<packaging>jar</packaging>
 
 	<name>Kurento Java Tutorial - One2One Call</name>
@@ -47,7 +47,7 @@
 		<demo.port>8084</demo.port>
 
 		<!-- Main class -->
-		<start-class>org.kurento.tutorial.one2onecall.One2OneCallApp</start-class>
+		<start-class>org.kurento.tutorial.one2onecall.One2OneNewWindowApp</start-class>
 
 	</properties>
 

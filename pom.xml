@@ -64,6 +64,7 @@
 		<module>kurento-hello-world</module>
 		<module>kurento-magic-mirror</module>
 		<module>kurento-one2one-call</module>
+		<module>kurento-one2one-newwindow</module>
 		<module>kurento-one2one-call-advanced</module>
 		<module>kurento-one2one-call-recording</module>
 		<module>kurento-one2many-call</module>

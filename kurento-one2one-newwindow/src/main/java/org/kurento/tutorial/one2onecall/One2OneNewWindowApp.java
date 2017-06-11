@@ -34,7 +34,7 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
  */
 @SpringBootApplication
 @EnableWebSocket
-public class One2OneCallApp implements WebSocketConfigurer {
+public class One2OneNewWindowApp implements WebSocketConfigurer {
 
   @Bean
   public CallHandler callHandler() {
@@ -57,7 +57,7 @@ public class One2OneCallApp implements WebSocketConfigurer {
   }
 
   public static void main(String[] args) throws Exception {
-    new SpringApplication(One2OneCallApp.class).run(args);
+    new SpringApplication(One2OneNewWindowApp.class).run(args);
   }
 
 }
