@@ -15,15 +15,15 @@
 <link rel="stylesheet" href="webjars/demo-console/index.css">
 <link rel="stylesheet" href="css/kurento.css">
 
-<script src="webjars/jquery/dist/jquery.min.js"></script>
-<script src="webjars/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/webjars/jquery/dist/jquery.min.js"></script>
+<script src="/webjars/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="webjars/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
 <script src="webjars/draggabilly/draggabilly.pkgd.min.js"></script>
 <script src="webjars/adapter.js/adapter.js"></script>
 <script src="webjars/demo-console/index.js"></script>
 
 <script src="js/kurento-utils.js"></script>
-<script src="js/index.js"></script>
+<script src="js/webcall.js"></script>
 <title>Kurento Tutorial 4: Video Call 1 to 1 with WebRTC</title>
 </head>
 <body>
@@ -102,6 +102,39 @@
 							class="glyphicon glyphicon-play"></span> Call</a> <a id="terminate"
 							href="#" class="btn btn-danger"><span
 							class="glyphicon glyphicon-stop"></span> Stop</a>
+					</div>
+				</div>
+				<hr />
+				<div class="row">
+					<div class="col-md-3">
+						<button name="Open WebCall" value="Open WebCall"
+								onclick="window.opener.document.body.focus();" >Click Me!</button>
+					</div>
+					<div class="col-md-3">
+						<button name="Open WebCall" value="Open WebCall"
+								onclick="window.close();" >Close Me!</button>
+					</div>
+					<div class="col-md-6 text-right">
+						<div class="col-md-6">
+							<button name="Open WebCall" value="Open WebCall"
+									onclick="window.opener.document.body.focus();" >Click Me!</button>
+						</div>
+					</div>
+				</div>
+					<div class="row">
+					<div class="col-md-3">
+						<button name="Open WebCall" value="Open WebCall"
+								onclick="window.opener.document.body.focus();" >Click Me!</button>
+					</div>
+					<div class="col-md-3">
+						<button name="Open WebCall" value="Open WebCall"
+								onclick="window.close();" >Close Me!</button>
+					</div>
+					<div class="col-md-6 text-right">
+						<div class="col-md-6">
+							<button name="Open WebCall" value="Open WebCall"
+									onclick="window.opener.document.body.focus();" >Click Me!</button>
+						</div>
 					</div>
 				</div>
 				<br /> <label class="control-label" for="console">Console</label><br>

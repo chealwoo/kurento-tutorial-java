@@ -75,6 +75,31 @@
     </div>
     <div class="row">
         <div class="col-md-5">
+            <label class="control-label" for="name">Name</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <input id="name" name="name" class="form-control" type="text"
+                           onkeydown="if (event.keyCode == 13) register();" />
+                </div>
+                <div class="col-md-6 text-right">
+                    <a id="register" href="#" class="btn btn-primary"><span
+                            class="glyphicon glyphicon-plus"></span> Register</a>
+                </div>
+            </div>
+
+            <br /> <br /> <label class="control-label" for="peer">Peer</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <input id="peer" name="peer" class="form-control" type="text"
+                           onkeydown="if (event.keyCode == 13) call();">
+                </div>
+                <div class="col-md-6 text-right">
+                    <a id="call" href="#" class="btn btn-success"><span
+                            class="glyphicon glyphicon-play"></span> Call</a> <a id="terminate"
+                                                                                 href="#" class="btn btn-danger"><span
+                        class="glyphicon glyphicon-stop"></span> Stop</a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3">
                     <button onclick="newwin = window.open('webcall.html', '_blank')" >Open New Tab</button>

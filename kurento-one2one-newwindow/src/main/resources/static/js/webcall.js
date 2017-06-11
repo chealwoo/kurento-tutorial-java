@@ -333,3 +333,28 @@ $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
 	event.preventDefault();
 	$(this).ekkoLightbox();
 });
+
+
+
+// ------------
+
+/* This is for the button functionality.
+ The button element first comes in.
+ This element is then used to get the document that has the element.
+ The document window opener is then passed to the focusMain method */
+function setFocusOnMain(el){
+    var doc = el.ownerDocument;
+    var win = doc.defaultView || doc.parentWindow;
+    focusMain(win.opener.document);
+}
+
+/* This is a recursive method that checks for a parent window of the current document.
+ If the document has no window opener, focus on this element because this is the Main.
+ If the document has a window opener, pass the window opener's document to focusMain. */
+function focusMain(doc) {
+    var win = doc.defaultView || doc.parentWindow;
+    if (win.opener == null)
+        doc.focus();
+    else
+        focusMain(win.opener.document);
+}
