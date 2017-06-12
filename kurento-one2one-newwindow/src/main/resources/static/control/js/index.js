@@ -15,6 +15,9 @@
  *
  */
 
+window.name = "parent";
+
+
 var ws = new WebSocket('wss://' + location.host + '/call');
 var videoInput;
 var videoOutput;

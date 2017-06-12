@@ -7,6 +7,17 @@
 
 Copyright © 2013-2016 [Kurento]. Licensed under [Apache 2.0 License].
 
+Demo
+====
+* Open main at https://localhost:8443/webcall.html
+* Register as main
+* Open Test at https://localhost:8443/control/index.html
+* Click on new tab button to open a new tab
+* Register as test
+* Call main from new tab.
+
+Enjoy :)
+
 kurento-one2one-call
 ====================
 

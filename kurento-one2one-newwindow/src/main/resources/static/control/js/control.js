@@ -1,10 +1,28 @@
 
 // https://stackoverflow.com/questions/6910278/how-to-return-focus-to-the-parent-window-using-javascript
 
-window.name = "parent";
-
 function register() {
-	window.open("webcall.html")
+    if(!window.opener){ alert('missing opener'); }
+
+    window.opener.document.getElementById('name').value = document.getElementById('name').value;
+	window.opener.register();
+}
+
+function call() {
+    if (document.getElementById('peer').value == '') {
+        window.alert('You must specify the peer name');
+        return;
+    }
+    window.opener.document.getElementById('peer').value = document.getElementById('peer').value;
+    window.opener.call();
+}
+$(document).ready(function() {
+    enableButton('#register', 'register()');
+    enableButton('#call', 'call()');
+});
+function enableButton(id, functionName) {
+    $(id).attr('disabled', false);
+    $(id).attr('onclick', functionName);
 }
 
 function openNewBackgroundTab(){

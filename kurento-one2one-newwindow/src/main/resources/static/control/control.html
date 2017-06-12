@@ -20,6 +20,7 @@
     <script src="/webjars/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
     <script src="/webjars/draggabilly/draggabilly.pkgd.min.js"></script>
 
+    <script src="js/control.js"></script>
     <title>Kurento Tutorial 4: Video Call 1 to 1 with WebRTC</title>
 </head>
 <body>
@@ -102,11 +103,11 @@
             </div>
             <div class="row">
                 <div class="col-md-3">
-                    <button onclick="newwin = window.open('webcall.html', '_blank')" >Open New Tab</button>
+                    <button onclick="newwin = window.close()" >Close me</button>
                 </div>
-                <div class="col-md-3 text-right">
+<!--                <div class="col-md-3 text-right">
                     <button onclick="newwin.close()" >Close New Tab</button>
-                </div>
+                </div>-->
 <!--                <div class="col-md-3 text-right">
                     <button  onclick="openNewBackgroundTab()" >Open new!</button>
                 </div>-->
@@ -116,25 +117,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-5">
-            <label class="control-label">Name</label>
-            <div class="row">
-                <div class="col-md-3">
-                    <button onclick="newwin.document.getElementById('')" >Open New Tab</button>
-                </div>
-                <div class="col-md-3 text-right">
-                    <button onclick="newwin.close()" >Close New Tab</button>
-                </div>
-<!--                <div class="col-md-3 text-right">
-                    <button  onclick="openNewBackgroundTab()" >Open new!</button>
-                </div>-->
-<!--                <div class="col-md-3 text-right">
-                    <button  onclick="newTab('webcall.html')" >Open new 2!</button>
-                </div>-->
-            </div>
-        </div>
-    </div>
+
 </div>
 
 <footer>
