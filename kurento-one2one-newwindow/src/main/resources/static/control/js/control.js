@@ -16,10 +16,17 @@ function call() {
     window.opener.document.getElementById('peer').value = document.getElementById('peer').value;
     window.opener.call();
 }
+
+function stop(message) {
+    window.opener.stop();
+}
+
 $(document).ready(function() {
     enableButton('#register', 'register()');
     enableButton('#call', 'call()');
+    enableButton('#terminate', 'stop()');
 });
+
 function enableButton(id, functionName) {
     $(id).attr('disabled', false);
     $(id).attr('onclick', functionName);
