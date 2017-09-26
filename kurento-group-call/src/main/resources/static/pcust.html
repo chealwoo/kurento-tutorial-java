@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>Kurento Room Demo</title>
+    <meta name="author" content="Raquel Díaz González">
+    <!--jquery-->
+    <script src="./js/jquery-2.1.1.min.js"></script>
+    <script src="./js/jquery-ui.min.js"></script>
+    <!-- Disable content caching -->
+    <!-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" /> -->
+</head>
+
+<body>
+
+<div id="box-iframes">
+
+</div>
+
+<script>
+
+    /**
+     *
+     * @param name
+     * @returns {*}
+     */
+    $.urlParam = function (name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        if (results == null) {
+            return null;
+        }
+        else {
+            return results[1] || 0;
+        }
+    };
+
+
+    $(document).ready(function () {
+        window.numOfRooms = $.urlParam("nor") || 10;
+        window.startN = $.urlParam("stN") || 0;
+        window.pfixRoomName = $.urlParam("rid") || "room";
+        window.pfixUserName = $.urlParam("uid") || "cust";
+        window.videoOn = $.urlParam("vOn") || false;
+        window.myi = window.startN;
+
+        window.setTimeout(addIframe, 5000);
+
+        function addIframe() {
+            $('<iframe>', {
+                src: 'index.html?roomname=' + pfixRoomName + window.myi + '&username=' + pfixUserName + window.myi + '&vOn=' + videoOn,
+                id: 'myFrame' + myi,
+                frameborder: 1,
+                scrolling: 'yes',
+                width: "300px", height: "200px"
+            }).appendTo('#box-iframes');
+            $('<hr>').appendTo('#box-iframes');
+
+			window.myi++; 
+
+            if(parseInt(window.myi) < (parseInt(window.startN) + parseInt(window.numOfRooms))) {
+                window.setTimeout(addIframe, 5000);
+            }
+        }
+    });
+
+
+</script>
+
+</body>
+
+</html>

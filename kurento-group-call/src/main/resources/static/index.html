@@ -35,5 +35,51 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+        (function() {
+            var params = getUrlVars();
+            var userName = params["username"];
+            var roomName = params["roomname"];
+
+            var keeytry = true;
+            var tryCnt = 0;
+            if (userName && roomName) {
+                        window.setTimeout( function() {
+                while(keeytry && tryCnt < 10) {
+                    try {
+                        keeytry = false;
+                        tryCnt++;
+                            document.getElementById('name').value = userName;
+                            document.getElementById('roomName').value = roomName;
+                            register({userName: userName, roomName: roomName});
+                    } catch (e) {
+                        sleep(3000);
+                        console.error(e);
+                        if(tryCnt < 10) {
+                            keeytry = true;
+                        }
+                    }
+                }
+                        }, 1000);
+            }
+        })();
+
+        function getUrlVars() {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+                function(m,key,value) {
+                    vars[key] = value;
+                });
+            return vars;
+        }
+
+        // Basic sleep function based on ms.
+        // DO NOT USE ON PUBLIC FACING WEBSITES.
+        function sleep(ms) {
+            var unixtime_ms = new Date().getTime();
+            while(new Date().getTime() < unixtime_ms + ms) {}
+        }
+	</script>
 </body>
 </html>

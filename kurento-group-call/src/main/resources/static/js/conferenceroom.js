@@ -93,13 +93,13 @@ function callResponse(message) {
 function onExistingParticipants(msg) {
 	var constraints = {
 		audio : true,
-		video : {
+		video : false /* {
 			mandatory : {
 				maxWidth : 320,
 				maxFrameRate : 15,
 				minFrameRate : 15
 			}
-		}
+		} */
 	};
 	console.log(name + " registered in room " + room);
 	var participant = new Participant(name);
