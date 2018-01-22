@@ -79,11 +79,25 @@ function viewerResponse(message) {
 		});
 	}
 }
-var name;
+
+var vname = urlParam("vname");
+if(typeof vname !== "vname") {
+	presenter();
+}
+
+function urlParam(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+        return null;
+    }
+    else {
+        return results[1] || 0;
+    }
+}
+
 function presenter() {
-    name = document.getElementById('name').value;
 	if (!webRtcPeer) {
-		showSpinner(video);
+		// showSpinner(video);
 
 		var options = {
 			localVideo : video,
@@ -108,13 +122,12 @@ function onOfferPresenter(error, offerSdp) {
 	var message = {
 		id : 'presenter',
 		sdpOffer : offerSdp,
-		wname: name
+		wname: vname
 	}
 	sendMessage(message);
 }
 
 function viewer() {
-    name = document.getElementById('name').value;
 	if (!webRtcPeer) {
 		showSpinner(video);
 
@@ -141,7 +154,7 @@ function onOfferViewer(error, offerSdp) {
 	var message = {
 		id : 'viewer',
 		sdpOffer : offerSdp,
-        wname: name
+        wname: vname
 	}
 	sendMessage(message);
 }
@@ -152,14 +165,15 @@ function onIceCandidate(candidate) {
 	var message = {
 		id : 'onIceCandidate',
 		candidate : candidate,
-        wname: name
+        wname: vname
 	};
 	sendMessage(message);
 }
 
 function stop() {
 	var message = {
-		id : 'stop'
+		id : 'stop',
+        wname: vname
 	}
 	sendMessage(message);
 	dispose();
